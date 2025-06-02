@@ -1,0 +1,52 @@
+name: Node CI
+
+on:
+  push:
+  pull_request:
+
+env:
+  CI: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      
+      - run: npm ci
+      - run: npm run lint
+      
+      - name: Run tests with coverage
+        run: npm test -- --coverage --coverageReporters=lcov --coverageDirectory=coverage
+      
+      - name: SonarQube Scan
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: SonarSource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
+        with:
+          args: >
+            -Dsonar.projectKey=SandActor_frontend-project-11
+            -Dsonar.projectName=frontend-project-11
+            -Dsonar.projectVersion=1.0
+            -Dsonar.sources=src
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+            -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
+      
+      - name: Code Climate Coverage
+        uses: paambaati/codeclimate-action@v5.0.0
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
