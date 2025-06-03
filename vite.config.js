@@ -1,9 +1,13 @@
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  base: './',          // Важно для корректных путей
+  base: './',
   build: {
     outDir: 'dist',
-    emptyOutDir: true
+    rollupOptions: {
+      input: {
+        main: './index.html'
+      }
+    }
   }
 })
