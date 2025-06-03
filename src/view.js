@@ -3,19 +3,30 @@ export default class View {
     this.app = app;
     this.form = document.getElementById('rss-form');
     this.input = document.getElementById('rss-url');
-    this.feedback = document.querySelector('.feedback-message');
+    this.feedback = document.querySelector('.feedback');
+    this.submitBtn = document.querySelector('button[type="submit"]');
     
+    this.updateTexts();
     this.state = onChange({
       form: {
-        valid: null,  // null, true или false
-        error: '',
+        valid: null,
+        error: null,
         value: ''
-      },
-      feeds: []
+      }
     }, this.render.bind(this));
   }
 
+  updateTexts() {
+    document.querySelector('label[for="rss-url"]').textContent = i18n.t('form.urlLabel');
+    this.submitBtn.textContent = i18n.t('form.submit');
+  }
+
   render(path) {
+    if (path === 'form.error') {
+      this.feedback.textContent = this.state.form.error 
+        ? i18n.t(`form.errors.${this.state.form.error}`) 
+        : '';
+    }
     if (path === 'form.valid') {
       this.updateValidationState();
     }

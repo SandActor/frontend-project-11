@@ -9,5 +9,13 @@ export default defineConfig({
         main: './index.html'
       }
     }
+  },
+  server: {
+    proxy: {
+      '/locales': {
+        target: 'http://localhost:5173',
+        rewrite: (path) => path.replace(/^\/locales/, '/public/locales')
+      }
+    }
   }
 })

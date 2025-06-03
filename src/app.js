@@ -1,36 +1,23 @@
 import { createSchema } from './validation';
+import i18n from './i18n';
 
 export default class App {
   constructor() {
-    this.view = new View(this);
     this.feeds = [];
-  }
-
-  init() {
-    this.view.init();
-  }
-
-  validateForm() {
-    const schema = createSchema(this.feeds);
-    
-    schema.validate({ url: this.view.state.form.value }, { abortEarly: false })
-      .then(() => {
-        this.view.state.form.valid = true;
-        this.view.state.form.error = '';
-      })
-      .catch((err) => {
-        this.view.state.form.valid = false;
-        this.view.state.form.error = err.errors.join('. ');
-      });
+    i18n.on('languageChanged', () => this.view.updateTexts());
   }
 
   handleSubmit(url) {
     const schema = createSchema(this.feeds);
     
-    schema.validate({ url }, { abortEarly: false })
+    schema.validate({ url })
       .then(() => {
         this.feeds.push(url);
-        this.view.state.feeds = [...this.feeds];
+        this.view.state.form.error = null;
+        alert(i18n.t('form.success'));
       })
+      .catch((err) => {
+        this.view.state.form.error = err.type || 'validation';
+      });
   }
 }

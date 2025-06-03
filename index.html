@@ -8,18 +8,13 @@
 <body>
   <div class="container mt-5">
     <h1 class="mb-4">RSS Reader</h1>
-    <form id="rss-form" class="needs-validation" novalidate>
+    <form id="rss-form">
       <div class="mb-3">
-        <label for="rss-url" class="form-label">RSS URL</label>
-        <input type="url" class="form-control" id="rss-url" required>
-        <div class="invalid-feedback feedback-message">
-          Пожалуйста, введите корректный RSS-URL
-        </div>
-        <div class="valid-feedback">
-          Корректный RSS-URL
-        </div>
+        <label for="rss-url" data-i18n="form.urlLabel"></label>
+        <input type="url" id="rss-url" required>
+        <div class="feedback invalid-feedback" data-i18n="feedback"></div>
       </div>
-      <button type="submit" class="btn btn-primary">Добавить</button>
+      <button type="submit" data-i18n="form.submit"></button>
     </form>
   </div>
   <script type="module" src="./src/main.js"></script>
