@@ -3,11 +3,8 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   base: './',
   build: {
-    outDir: 'dist',
     rollupOptions: {
-      input: {
-        main: './index.html'
-      }
+      external: ['i18next', 'i18next-http-backend', 'i18next-browser-languagedetector']
     }
   },
   server: {
