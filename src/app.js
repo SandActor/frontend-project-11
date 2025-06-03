@@ -17,7 +17,7 @@ export default class App {
         alert(i18n.t('form.success'));
       })
       .catch((err) => {
-        this.view.state.form.error = err.type || 'validation';
+        this.view.showError(err);
       });
   }
 }

@@ -4,3 +4,4 @@
 Ссылка на сайт: [https://frontend-project-11-theta-three.vercel.app](https://frontend-project-11-theta-three.vercel.app)
 1 шаг - ![alt text](image.png)
 2 шаг - ![alt text](image-1.png)
+3 шаг - ![alt text](image-2.png)
