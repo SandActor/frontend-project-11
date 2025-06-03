@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>RSS Reader</title>
 </head>
 <body>
@@ -11,10 +11,11 @@
       <div class="mb-3">
         <label for="rss-url" class="form-label">RSS URL</label>
         <input type="text" class="form-control" id="rss-url" required>
+        <div class="feedback invalid-feedback text-danger mt-2"></div>
       </div>
       <button type="submit" class="btn btn-primary">Добавить</button>
     </form>
   </div>
-  <script type="module" src="./src/main.js"></script>
+  <script type="module" src="./main.js"></script>
 </body>
 </html>
