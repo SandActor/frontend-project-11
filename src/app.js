@@ -8,7 +8,6 @@ export default class App {
   }
 
   handleSubmit(url) {
-    console.log("что-то1")
     const schema = createSchema(this.feeds);
     
     schema.validate({ url })
