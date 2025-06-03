@@ -66,7 +66,6 @@ export default class View {
   init() {
     this.form.addEventListener('submit', (e) => {
       e.preventDefault();
-      console.log("что-то")
       this.form.classList.add('was-validated');
       this.app.handleSubmit(this.state.form.value);
     });
