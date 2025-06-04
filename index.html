@@ -7,23 +7,31 @@
 </head>
 <body>
   <div class="container mt-5">
-    <h1 class="mb-4">RSS Reader</h1>
-    <form id="rss-form">
-      <div class="mb-3" class="mb-5">
-        <label for="rss-url" data-i18n="form.urlLabel"></label>
-        <input type="url" id="rss-url" required>
-        <div class="feedback invalid-feedback" data-i18n="feedback"></div>
-      </div>
-      <button type="submit" data-i18n="form.submit" class="btn btn-primary">Добавить</button>
-    </form>
-    <div class="row">
-      <div class="col-md-4">
-        <h2>Фиды</h2>
-        <div id="feeds"></div>
-      </div>
-      <div class="col-md-8">
-        <h2>Посты</h2>
-        <div id="posts"></div>
+    <div class="row justify-content-center">
+      <div class="col-md-10 col-lg-8">
+        <h1 class="text-center mb-4">RSS агрегатор</h1>
+        <p class="text-center mb-4">Начните читать RSS сегодня! Это легко, это красиво.</p>
+        
+        <form id="rss-form" class="mb-5">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="rss-url" placeholder="Ссылка RSS" required>
+            <label for="rss-url">Ссылка RSS</label>
+            <div class="feedback invalid-feedback"></div>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Добавить</button>
+        </form>
+        
+        <div class="text-center text-muted mb-4">
+          Пример: https://lorem-rss.hexlet.app/feed
+        </div>
+        
+        <div class="alert alert-success d-none" id="success-alert">
+          RSS успешно загружен
+        </div>
+        
+        <h2 class="mt-5 mb-3">Фиды</h2>
+        <div id="feeds">
+        </div>
       </div>
     </div>
   </div>

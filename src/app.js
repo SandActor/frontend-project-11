@@ -21,19 +21,21 @@ export default class App {
   }
 
   handleSubmit(url) {
-    const schema = createSchema(this.state.feeds)
-    this.state.loading = true
+    const schema = createSchema(this.state.feeds);
+    
+    this.state.loading = true;
+    
     schema.validate({ url })
       .then(() => getRSS(url))
       .then(({ feed, posts }) => {
-        const feedId = this.generateId()
+        const feedId = this.generateId();
         
         this.state.feeds.push({
           id: feedId,
           url,
           title: feed.title,
           description: feed.description
-        })
+        });
         
         const newPosts = posts.map(post => ({
           ...post,
@@ -42,15 +44,15 @@ export default class App {
           viewed: false
         }));
         
-        this.state.posts.push(...newPosts)
-        this.state.form.error = null
-        this.state.form.value = ''
+        this.state.posts.push(...newPosts);
+        this.state.form.error = null;
+        this.state.form.value = '';
       })
       .catch((err) => {
-        this.state.form.error = err.message
+        this.state.form.error = err.message;
       })
       .finally(() => {
-        this.state.loading = false
-      })
+        this.state.loading = false;
+      });
   }
 }

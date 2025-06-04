@@ -7,8 +7,8 @@ export default class View {
     this.input = document.getElementById('rss-url');
     this.feedback = document.querySelector('.feedback');
     this.submitBtn = document.querySelector('button[type="submit"]');
+    this.successAlert = document.getElementById('success-alert');
     this.feedsContainer = document.getElementById('feeds');
-    this.postsContainer = document.getElementById('posts');
     
     this.updateTexts();
     this.state = onChange({
@@ -23,6 +23,9 @@ export default class View {
   updateTexts() {
     document.querySelector('label[for="rss-url"]').textContent = i18n.t('form.urlLabel');
     this.submitBtn.textContent = i18n.t('form.submit');
+    document.querySelector('h1').textContent = i18n.t('app.title');
+    document.querySelector('p.text-center').textContent = i18n.t('app.subtitle');
+    document.querySelector('h2').textContent = i18n.t('app.feedsTitle');
   }
 
   render(path) {
@@ -31,6 +34,7 @@ export default class View {
         ? i18n.t(`form.errors.${this.state.form.error}`) 
         : '';
     }
+    
     if (path === 'form.valid') {
       this.updateValidationState();
     }
@@ -40,34 +44,30 @@ export default class View {
     }
 
     if (path === 'feeds') {
+      this.renderFeeds();
+      this.showSuccessAlert();
       this.resetForm();
     }
+  }
+
+  renderFeeds() {
     this.feedsContainer.innerHTML = this.app.state.feeds
-    .map(feed => `
-      <div class="card mb-3">
-        <div class="card-body">
-          <h5 class="card-title">${feed.title}</h5>
-          <p class="card-text">${feed.description}</p>
+      .map(feed => `
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title"><strong>${feed.title}</strong></h5>
+            <p class="card-text">${feed.description}</p>
+          </div>
         </div>
-      </div>
-    `).join('')
-    this.postsContainer.innerHTML = this.app.state.posts
-    .map(post => {
-      const feed = this.app.state.feeds.find(f => f.id === post.feedId)
-      const viewedClass = post.viewed ? 'text-secondary' : 'fw-bold'
-      return `
-        <div class="mb-2">
-          <a href="${post.link}" 
-              class="${viewedClass}" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              data-id="${post.id}">
-            ${post.title}
-          </a>
-          <small class="d-block">${feed.title}</small>
-        </div>
-      `
-    }).join('')
+      `).join('');
+  }
+
+  showSuccessAlert() {
+    this.successAlert.textContent = i18n.t('form.success');
+    this.successAlert.classList.remove('d-none');
+    setTimeout(() => {
+      this.successAlert.classList.add('d-none');
+    }, 3000);
   }
 
   updateValidationState() {
