@@ -1,6 +1,11 @@
 import { defineConfig } from 'vite'
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      '@locales': path.resolve(__dirname, 'public/locales')
+    }
+  },
   base: './',
   build: {
     rollupOptions: {

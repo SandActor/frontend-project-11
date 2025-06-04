@@ -93,10 +93,10 @@ export default class View {
 
   init() {
     this.form.addEventListener('submit', (e) => {
-      e.preventDefault()
-      this.form.classList.add('was-validated')
-      this.app.handleSubmit(this.state.form.value)
-    })
+      e.preventDefault();
+      this.form.classList.add('was-validated');
+      this.app.handleSubmit(this.state.form.value);
+    });
 
     this.input.addEventListener('input', (e) => {
       this.state.form.value = e.target.value
