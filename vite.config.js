@@ -1,24 +1,15 @@
-import { defineConfig } from 'vite'
-import path from 'path'
+import { defineConfig } from 'vite';
+import path from 'path';
 
 export default defineConfig({
   resolve: {
     alias: {
-      '@locales': path.resolve(__dirname, 'public/locales')
-    }
-  },
-  base: './',
-  build: {
-    rollupOptions: {
-      external: ['i18next', 'i18next-http-backend', 'i18next-browser-languagedetector']
+      '@locales': path.resolve(__dirname, 'locales')
     }
   },
   server: {
-    proxy: {
-      '/locales': {
-        target: 'http://localhost:5173',
-        rewrite: (path) => path.replace(/^\/locales/, '/public/locales')
-      }
+    fs: {
+      strict: false
     }
   }
-})
+});
