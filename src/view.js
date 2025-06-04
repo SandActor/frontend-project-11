@@ -20,14 +20,6 @@ export default class View {
     }, this.render.bind(this));
   }
 
-  updateTexts() {
-    document.querySelector('label[for="rss-url"]').textContent = i18n.t('form.urlLabel');
-    this.submitBtn.textContent = i18n.t('form.submit');
-    document.querySelector('h1').textContent = i18n.t('app.title');
-    document.querySelector('p.text-center').textContent = i18n.t('app.subtitle');
-    document.querySelector('h2').textContent = i18n.t('app.feedsTitle');
-  }
-
   render(path) {
     if (path === 'form.error') {
       this.feedback.textContent = this.state.form.error 
@@ -83,19 +75,40 @@ export default class View {
     }
   }
 
+  showSuccess() {
+    this.successAlert.classList.remove('d-none');
+    setTimeout(() => {
+      this.successAlert.classList.add('d-none');
+    }, 3000);
+  }
+
+  showError(message) {
+    this.feedback.textContent = message;
+    this.feedback.classList.add('d-block');
+    this.input.classList.add('is-invalid');
+  }
+
   resetForm() {
-    this.form.classList.remove('was-validated')
-    this.input.classList.remove('is-valid', 'is-invalid')
-    this.input.value = ''
-    this.feedback.classList.remove('d-block')
-    this.input.focus()
+    this.form.reset();
+    this.input.classList.remove('is-invalid');
+    this.feedback.classList.remove('d-block');
+    this.input.focus();
   }
 
   init() {
     this.form.addEventListener('submit', (e) => {
       e.preventDefault();
-      this.form.classList.add('was-validated');
-      this.app.handleSubmit(this.state.form.value);
+      const formData = new FormData(this.form);
+      const url = formData.get('url');
+      
+      this.app.handleSubmit(url)
+        .then(() => {
+          this.showSuccess();
+          this.resetForm();
+        })
+        .catch((error) => {
+          this.showError(error.message);
+        });
     });
 
     this.input.addEventListener('input', (e) => {
