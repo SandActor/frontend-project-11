@@ -11,6 +11,7 @@ export default class App {
 
   async handleSubmit(url) {
     try {
+      
       this.state.loading = true;
       
       const schema = createSchema(this.state.feeds);

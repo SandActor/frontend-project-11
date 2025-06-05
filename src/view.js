@@ -9,15 +9,9 @@ export default class View {
     this.submitBtn = document.querySelector('button[type="submit"]');
     this.successAlert = document.getElementById('success-alert');
     this.feedsContainer = document.getElementById('feeds');
-    
-    this.updateTexts();
-    this.state = onChange({
-      form: {
-        valid: null,
-        error: null,
-        value: ''
-      }
-    }, this.render.bind(this));
+    this.postsContainer = document.getElementById('posts');
+
+    this.init();
   }
 
   render(path) {
@@ -113,6 +107,7 @@ export default class View {
 
     this.input.addEventListener('input', (e) => {
       this.state.form.value = e.target.value
+      console.log(this.state.form.value)
       this.app.validateForm()
     })
 
