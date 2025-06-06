@@ -15,11 +15,14 @@ const createSchema = (existingUrls) => {
     url: yup
       .string()
       .required()
-      .url()
+      .url() 
       .test(
         'unique-url',
         i18n.t('form.errors.duplicate'),
-        (value) => !existingUrls.includes(value)
+        (value) => {
+          if (!value) return true
+          return !existingUrls.includes(value)
+        }
       )
   })
 }
