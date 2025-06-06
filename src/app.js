@@ -30,15 +30,14 @@ export default class App {
 
   handleSubmit(url) {
     this.state.loading = true;
-    this.validateForm(url)
-      .then(() => {
-        return getRSS(url);
-      })
+    getRSS(url)
       .then(({ feed, posts }) => {
-        console.log(posts)
         if (!feed || !feed.title || !feed.description) {
           throw new Error('Некорректные данные RSS');
         }
+        return this.validateForm(url).then(() => ({ feed, posts }));
+      })
+      .then(({ feed, posts }) => {
         const feedId = this.generateId();
         this.state.feeds.push({
           id: feedId,

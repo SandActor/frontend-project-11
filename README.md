@@ -5,3 +5,5 @@
 1 шаг - ![alt text](image.png)
 2 шаг - ![alt text](image-1.png)
 3 шаг - ![alt text](image-2.png)
+4, 5 шаг - ![alt text](image-3.png)
+6 шаг - ![alt text](image-4.png)

@@ -8,16 +8,22 @@ export default class View {
     this.successAlert = document.getElementById('success-alert');
     this.feedsContainer = document.getElementById('feeds');
     this.postsContainer = document.getElementById('posts');
+
+    // Инициализация модалки Bootstrap
+    this.modal = new bootstrap.Modal(document.getElementById('previewModal'));
+    this.modalTitle = document.querySelector('#previewModalLabel');
+    this.modalDescription = document.querySelector('#modalDescription');
+
     this.renderFeeds();
     this.renderPosts();
 
     this.init();
 
     this.app.onUpdatePosts = () => {
-      this.renderPosts()
+      this.renderPosts();
     }
 
-    this.app.startPolling(5000)
+    this.app.startPolling(5000);
   }
 
   init() {
@@ -26,11 +32,11 @@ export default class View {
       const url = this.input.value.trim();
       
       try {
-        this.app.validateForm(url)
+        this.app.validateForm(url);
         this.app.handleSubmit(url);
-        this.showSuccess();
         this.renderFeeds();
         this.renderPosts();
+        this.showSuccess();
         this.resetForm();
       } catch (error) {
         this.showError(error.message);
@@ -92,17 +98,35 @@ export default class View {
     this.postsContainer.innerHTML = this.app.state.posts
       .map(post => {
         const feed = this.app.state.feeds.find(f => f.id === post.feedId);
+        const linkClass = post.viewed ? 'text-secondary' : 'fw-bold';
+
         return `
-          <div class="mb-3">
-            <a href="${post.link}" 
-              class="${post.viewed ? 'text-secondary' : 'fw-bold'}" 
-              target="_blank"
-              data-id="${post.id}">
+          <div class="mb-3 d-flex justify-content-between align-items-start bg-white p-3 rounded shadow-sm">
+            <a href="${post.link}" target="_blank" class="${linkClass}" data-id="${post.id}">
               ${post.title}
             </a>
-            <small class="text-muted d-block">${feed?.title || 'Unknown feed'}</small>
+            <button class="btn btn-sm btn-outline-primary ms-2 preview-btn" data-id="${post.id}">Предпросмотр</button>
           </div>
         `;
       }).join('');
+      
+    this.postsContainer.querySelectorAll('.preview-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const postId = e.target.dataset.id;
+        this.showPreview(postId);
+      });
+    });
+  }
+
+  showPreview(postId) {
+    const post = this.app.state.posts.find(p => p.id === postId);
+    if (!post) return;
+    this.modalTitle.textContent = post.title;
+    this.modalDescription.textContent = post.description;
+    this.modal.show();
+    if (!post.viewed) {
+      post.viewed = true;
+      this.renderPosts();
+    }
   }
 }
