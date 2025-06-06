@@ -19,7 +19,7 @@ export default class App {
   validateForm(url) {
     const existingUrls = this.state.feeds.map(feed => feed.url);
     const schema = createSchema(existingUrls);
-    return schema.validate({ url })  // здесь передается объект с ключом url
+    return schema.validate({ url })
       .then(() => {
         return true;
       })
