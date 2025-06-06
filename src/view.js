@@ -1,3 +1,5 @@
+import { Modal } from 'bootstrap'
+
 export default class View {
   constructor(app) {
     this.app = app;
@@ -9,8 +11,7 @@ export default class View {
     this.feedsContainer = document.getElementById('feeds');
     this.postsContainer = document.getElementById('posts');
 
-    // Инициализация модалки Bootstrap
-    this.modal = new bootstrap.Modal(document.getElementById('previewModal'));
+    this.modal = new Modal(document.getElementById('previewModal'));
     this.modalTitle = document.querySelector('#previewModalLabel');
     this.modalDescription = document.querySelector('#modalDescription');
 
@@ -97,7 +98,6 @@ export default class View {
   renderPosts() {
     this.postsContainer.innerHTML = this.app.state.posts
       .map(post => {
-        const feed = this.app.state.feeds.find(f => f.id === post.feedId);
         const linkClass = post.viewed ? 'text-secondary' : 'fw-bold';
 
         return `
