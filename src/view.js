@@ -4,7 +4,7 @@ export default class View {
   constructor(app) {
     this.app = app;
     this.form = document.getElementById('rss-form');
-    this.input = document.getElementById('rss-url');
+    this.input = document.getElementById('url');
     this.feedback = document.querySelector('.feedback');
     this.submitBtn = document.querySelector('button[type="submit"]');
     this.successAlert = document.getElementById('success-alert');
@@ -55,9 +55,7 @@ export default class View {
   showSuccess() {
     this.successAlert.textContent = 'RSS успешно загружен';
     this.successAlert.classList.remove('d-none');
-    if (process.env.NODE_ENV !== 'test') {
-      setTimeout(() => this.successAlert.classList.add('d-none'), 5000);
-    }
+    setTimeout(() => this.successAlert.classList.add('d-none'), 3000);
   }
 
   showError(message) {
