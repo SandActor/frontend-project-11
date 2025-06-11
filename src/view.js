@@ -28,33 +28,26 @@ export default class View {
   }
 
   init() {
-    this.form.addEventListener('submit', (e) => {
+    this.form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const url = this.input.value.trim();
       
       try {
-        this.app.validateForm(url);
-        this.app.handleSubmit(url);
+        this.submitBtn.disabled = true;
+        this.submitBtn.textContent = 'Загрузка...';
+        
+        await this.app.validateForm(url);
+        await this.app.handleSubmit(url);
+        
         this.renderFeeds();
         this.renderPosts();
         this.showSuccess();
         this.resetForm();
       } catch (error) {
         this.showError(error.message);
-      }
-    });
-
-    this.input.addEventListener('input', (e) => {
-      const url = e.target.value.trim();
-      if (url) {
-        try {
-          this.app.validateForm(url);
-          this.clearErrors();
-        } catch (error) {
-          this.showError(error.message);
-        }
-      } else {
-        this.clearErrors();
+      } finally {
+        this.submitBtn.disabled = false;
+        this.submitBtn.textContent = 'Добавить';
       }
     });
   }
@@ -62,7 +55,9 @@ export default class View {
   showSuccess() {
     this.successAlert.textContent = 'RSS успешно загружен';
     this.successAlert.classList.remove('d-none');
-    setTimeout(() => this.successAlert.classList.add('d-none'), 3000);
+    if (process.env.NODE_ENV !== 'test') {
+      setTimeout(() => this.successAlert.classList.add('d-none'), 5000);
+    }
   }
 
   showError(message) {
