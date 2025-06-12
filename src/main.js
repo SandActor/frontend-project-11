@@ -1,10 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './styles.css'
-import App from './app.js'
-import View from './view.js'
+import { createApp } from './app.js'
+import { initView } from './view.js'
 
 document.addEventListener('DOMContentLoaded', () => {
-  const app = new App()
-  const view = new View(app)
-  view.init()
+  const app = createApp()
+  initView(app)
 })
