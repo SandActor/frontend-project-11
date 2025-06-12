@@ -55,7 +55,7 @@ export default class View {
   showSuccess() {
     this.successAlert.textContent = 'RSS успешно загружен';
     this.successAlert.classList.remove('d-none');
-    setTimeout(() => this.successAlert.classList.add('d-none'), 3000);
+    setTimeout(() => this.successAlert.classList.add('d-none'), 5000);
   }
 
   showError(message) {
