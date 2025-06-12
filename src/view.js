@@ -19,9 +19,9 @@ export const initView = (app) => {
   }
 
   const showError = (message) => {
-    feedback.textContent = message
-    feedback.classList.remove('text-success')
-    feedback.classList.add('text-danger', 'd-block')
+    successAlert.textContent = message
+    successAlert.classList.remove('text-success')
+    successAlert.classList.add('text-danger', 'd-block')
     input.classList.add('is-invalid')
   }
 
