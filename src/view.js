@@ -60,13 +60,15 @@ export default class View {
 
   showError(message) {
     this.feedback.textContent = message;
+    this.feedback.classList.remove('text-success');
+    this.feedback.classList.add('text-danger');
     this.feedback.classList.add('d-block');
     this.input.classList.add('is-invalid');
   }
 
   clearErrors() {
     this.feedback.textContent = '';
-    this.feedback.classList.remove('d-block');
+    this.feedback.classList.remove('text-danger', 'd-block');
     this.input.classList.remove('is-invalid');
   }
 
