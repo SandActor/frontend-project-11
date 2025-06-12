@@ -55,20 +55,18 @@ export default class View {
   showSuccess() {
     this.successAlert.textContent = 'RSS успешно загружен';
     this.successAlert.classList.remove('d-none');
-    setTimeout(() => this.successAlert.classList.add('d-none'), 5000);
+    setTimeout(() => this.successAlert.classList.add('d-none'), 3000);
   }
 
   showError(message) {
     this.feedback.textContent = message;
-    this.feedback.classList.remove('text-success');
-    this.feedback.classList.add('text-danger');
     this.feedback.classList.add('d-block');
     this.input.classList.add('is-invalid');
   }
 
   clearErrors() {
     this.feedback.textContent = '';
-    this.feedback.classList.remove('text-danger', 'd-block');
+    this.feedback.classList.remove('d-block');
     this.input.classList.remove('is-invalid');
   }
 
