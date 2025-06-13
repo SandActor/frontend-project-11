@@ -52,6 +52,8 @@ export const createApp = () => {
             viewed: false,
           }));
           
+          startPolling(5000)
+          
           return {
             feeds: [...state.feeds, newFeed],
             posts: [...state.posts, ...newPosts],

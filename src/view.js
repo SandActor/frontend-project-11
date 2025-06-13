@@ -113,6 +113,4 @@ export const initView = (app) => {
   app.onUpdatePosts = () => {
     renderPosts()
   }
-
-  app.startPolling(5000)
 }
