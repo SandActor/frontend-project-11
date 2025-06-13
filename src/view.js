@@ -102,7 +102,6 @@ export const initView = (app) => {
       resetForm();
     })
     .catch((error) => {
-      console.error('Ошибка:', error);
       showError(error.message);
     })
     .finally(() => {
