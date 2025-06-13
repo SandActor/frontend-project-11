@@ -19,9 +19,9 @@ export const initView = (app) => {
   }
 
   const showError = (message) => {
-    successAlert.textContent = message
-    successAlert.classList.remove('text-success')
-    successAlert.classList.add('text-danger', 'd-block')
+    feedback.textContent = message
+    feedback.classList.remove('text-success')
+    feedback.classList.add('text-danger', 'd-block')
     input.classList.add('is-invalid')
   }
 
@@ -93,21 +93,22 @@ export const initView = (app) => {
     submitBtn.textContent = 'Загрузка...'
     
     app.validateForm(url)
-      .then(() => app.handleSubmit(url))
-      .then(() => {
-        renderFeeds()
-        renderPosts()
-        showSuccess()
-        resetForm()
-      })
-      .catch((error) => {
-        console.error('Ошибка:', error)
-        showError(error.message)
-      })
-      .finally(() => {
-        submitBtn.disabled = false
-        submitBtn.textContent = originalBtnText
-      })
+    .then(() => app.handleSubmit(url))
+    .then(({ feeds, posts }) => {
+      app.updateState({ feeds, posts });
+      renderFeeds(feeds);
+      renderPosts(posts);
+      showSuccess();
+      resetForm();
+    })
+    .catch((error) => {
+      console.error('Ошибка:', error);
+      showError(error.message);
+    })
+    .finally(() => {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalBtnText;
+    });
   })
 
   app.onUpdatePosts = () => {

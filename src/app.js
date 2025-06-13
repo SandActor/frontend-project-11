@@ -23,39 +23,54 @@ export const createApp = () => {
   }
 
   const handleSubmit = (url) => {
-    state.loading = true
-    getRSS(url)
-      .then(({ feed, posts }) => {
-        if (!feed || !feed.title || !feed.description) {
-          throw new Error('Некорректные данные RSS')
-        }
-        return validateForm(url).then(() => ({ feed, posts }))
-      })
-      .then(({ feed, posts }) => {
-        const feedId = generateId()
-        state.feeds.push({
-          id: feedId,
-          url,
-          title: feed.title,
-          description: feed.description,
+    return new Promise((resolve, reject) => {
+      state.loading = true;
+      
+      getRSS(url)
+        .then(({ feed, posts }) => {
+          if (!feed || !feed.title || !feed.description) {
+            throw new Error('Некорректные данные RSS');
+          }
+          
+          return validateForm(url)
+            .then(() => ({ feed, posts }));
         })
-        
-        const newPosts = posts.map(post => ({
-          ...post,
-          id: generateId(),
-          feedId,
-          viewed: false,
-        }))
-        state.posts = [...state.posts, ...newPosts]
-      })
-      .catch((err) => {
-        console.error('Ошибка при добавлении RSS:', err)
-        throw err
-      })
-      .finally(() => {
-        state.loading = false
-      })
-  }
+        .then(({ feed, posts }) => {
+          const feedId = generateId();
+          
+          const newFeed = {
+            id: feedId,
+            url,
+            title: feed.title,
+            description: feed.description,
+          };
+          
+          const newPosts = posts.map(post => ({
+            ...post,
+            id: generateId(),
+            feedId,
+            viewed: false,
+          }));
+          
+          return {
+            feeds: [...state.feeds, newFeed],
+            posts: [...state.posts, ...newPosts],
+          };
+        })
+        .then(updatedData => {
+          state.feeds = updatedData.feeds;
+          state.posts = updatedData.posts;
+          state.loading = false;
+          
+          resolve(updatedData);
+        })
+        .catch(err => {
+          state.loading = false;
+          state.error = err.message;
+          reject(err);
+        });
+    });
+  };
 
   const checkForNewPosts = () => {
     const feedPromises = state.feeds.map(feed => {
@@ -92,6 +107,18 @@ export const createApp = () => {
     pollingInterval = setInterval(checkForNewPosts, intervalMs)
   }
 
+  const updateState = (newState) => {
+    if (newState.feeds) {
+      state.feeds = newState.feeds;
+    }
+    if (newState.posts) {
+      state.posts = newState.posts;
+    }
+    if (newState.error) {
+      state.error = newState.error;
+    }
+  };
+
   return {
     state,
     validateForm,
@@ -100,5 +127,7 @@ export const createApp = () => {
     set onUpdatePosts(callback) {
       onUpdatePosts = callback
     },
+    updateState,
+    getState: () => ({ ...state }),
   }
 }
