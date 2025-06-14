@@ -18,12 +18,21 @@ export const initView = (app) => {
   }
 
   const showError = (message) => {
-    const errorContainer = document.querySelector('.invalid-feedback');
-    errorContainer.innerHTML = '';
-    errorContainer.appendChild(document.createTextNode(message));
+    const form = document.getElementById('rss-form');
     
-    errorContainer.style.display = 'block';
-    input.classList.add('is-invalid');
+    const oldError = document.querySelector('#rss-form > .error-text');
+    if (oldError) oldError.remove();
+    
+    const errorText = document.createTextNode(message);
+    const errorSpan = document.createElement('span');
+    errorSpan.className = 'error-text';
+    errorSpan.style.color = '#dc3545';
+    errorSpan.appendChild(errorText);
+    
+    const button = form.querySelector('button[type="submit"]');
+    form.insertBefore(errorSpan, button);
+    
+    document.getElementById('url').classList.add('is-invalid');
   };
 
   const clearErrors = () => {
