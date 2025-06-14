@@ -31,6 +31,12 @@
       font-size: 0.9rem;
       color: #6c757d;
     }
+    .rss-error {
+      color: #dc3545;
+      margin-top: 0.25rem;
+      font-size: 0.875em;
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -46,6 +52,7 @@
             <input type="url" class="form-control" id="url" aria-label="url" placeholder="Ссылка RSS" required>
             <label for="url">Ссылка RSS</label>
             <div class="feedback invalid-feedback"></div>
+            <div class="rss-error">RSS уже существует</div>
           </div>
           <button type="submit" class="btn btn-primary w-100 py-2">Добавить</button>
         </form>

@@ -19,16 +19,23 @@ export const initView = (app) => {
   }
 
   const showError = (message) => {
-    feedback.textContent = message
-    feedback.classList.remove('text-success')
-    feedback.classList.add('text-danger', 'd-block')
-    input.classList.add('is-invalid')
+    feedback.textContent = '';
+    feedback.classList.remove('text-danger', 'd-block', 'text-success');
+    
+    const rssErrorElement = document.querySelector('.rss-error');
+    rssErrorElement.textContent = message;
+    rssErrorElement.style.display = 'block';
+    input.classList.add('is-invalid');
   }
 
   const clearErrors = () => {
-    feedback.textContent = ''
-    feedback.classList.remove('text-danger', 'd-block')
-    input.classList.remove('is-invalid')
+    feedback.textContent = '';
+    feedback.classList.remove('text-danger', 'd-block', 'text-success');
+    
+    const rssErrorElement = document.querySelector('.rss-error');
+    rssErrorElement.style.display = 'none';
+    rssErrorElement.textContent = '';
+    input.classList.remove('is-invalid');
   }
 
   const resetForm = () => {
