@@ -20,26 +20,22 @@ export const initView = (app) => {
   const showError = (message) => {
     const form = document.getElementById('rss-form');
     
-    const oldError = document.querySelector('#rss-form > .error-text');
-    if (oldError) oldError.remove();
+    const existingError = form.querySelector('.error-text-node');
+    if (existingError) existingError.remove();
     
     const errorText = document.createTextNode(message);
-    const errorSpan = document.createElement('span');
-    errorSpan.className = 'error-text';
-    errorSpan.style.color = '#dc3545';
-    errorSpan.appendChild(errorText);
     
-    const button = form.querySelector('button[type="submit"]');
-    form.insertBefore(errorSpan, button);
+    form.appendChild(errorText);
     
     document.getElementById('url').classList.add('is-invalid');
   };
 
   const clearErrors = () => {
-    const errorContainer = document.querySelector('.invalid-feedback');
-    errorContainer.innerHTML = '';
-    errorContainer.style.display = 'none';
-    input.classList.remove('is-invalid');
+    const form = document.getElementById('rss-form');
+    const error = form.querySelector('.error-text-node');
+    if (error) error.remove();
+    
+    document.getElementById('url').classList.remove('is-invalid');
   };
 
   const resetForm = () => {
