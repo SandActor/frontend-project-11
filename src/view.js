@@ -19,13 +19,22 @@ export const initView = (app) => {
 
   const showError = (message) => {
     const form = document.getElementById('rss-form');
+    const button = form.querySelector('button[type="submit"]');
     
     const existingError = form.querySelector('.error-text-node');
     if (existingError) existingError.remove();
     
     const errorText = document.createTextNode(message);
     
-    form.appendChild(errorText);
+    const wrapper = document.createElement('span');
+    wrapper.className = 'error-text-node';
+    wrapper.style.color = '#dc3545';
+    wrapper.style.display = 'block';
+    wrapper.style.margin = '0.5rem 0';
+    wrapper.style.fontSize = '0.875em';
+    
+    wrapper.appendChild(errorText);
+    form.insertBefore(wrapper, button);
     
     document.getElementById('url').classList.add('is-invalid');
   };
