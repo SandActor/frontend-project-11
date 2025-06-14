@@ -19,22 +19,14 @@ export const initView = (app) => {
   }
 
   const showError = (message) => {
-    feedback.textContent = '';
-    feedback.classList.remove('text-danger', 'd-block', 'text-success');
-    
-    const rssErrorElement = document.querySelector('.rss-error');
-    rssErrorElement.textContent = message;
-    rssErrorElement.style.display = 'block';
+    feedback.textContent = message;
+    feedback.classList.add('d-block'); // Добавляем, если нужно явное отображение
     input.classList.add('is-invalid');
   }
 
   const clearErrors = () => {
     feedback.textContent = '';
-    feedback.classList.remove('text-danger', 'd-block', 'text-success');
-    
-    const rssErrorElement = document.querySelector('.rss-error');
-    rssErrorElement.style.display = 'none';
-    rssErrorElement.textContent = '';
+    feedback.classList.remove('d-block'); // Убираем, если добавляли
     input.classList.remove('is-invalid');
   }
 
