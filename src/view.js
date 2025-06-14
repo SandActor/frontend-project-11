@@ -3,7 +3,6 @@ import { Modal } from 'bootstrap'
 export const initView = (app) => {
   const form = document.getElementById('rss-form')
   const input = document.getElementById('url')
-  const feedback = document.querySelector('p.feedback')
   const submitBtn = document.querySelector('button[type="submit"]')
   const successAlert = document.getElementById('success-alert')
   const feedsContainer = document.getElementById('feeds')
