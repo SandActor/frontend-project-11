@@ -20,13 +20,13 @@ export const initView = (app) => {
 
   const showError = (message) => {
     feedback.textContent = message;
-    feedback.classList.add('d-block'); // Добавляем, если нужно явное отображение
+    feedback.classList.add('d-block');
     input.classList.add('is-invalid');
   }
 
   const clearErrors = () => {
     feedback.textContent = '';
-    feedback.classList.remove('d-block'); // Убираем, если добавляли
+    feedback.classList.remove('d-block');
     input.classList.remove('is-invalid');
   }
 
