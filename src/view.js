@@ -19,16 +19,20 @@ export const initView = (app) => {
   }
 
   const showError = (message) => {
-    feedback.textContent = message;
-    feedback.classList.add('d-block');
+    const errorContainer = document.querySelector('.invalid-feedback');
+    errorContainer.innerHTML = '';
+    errorContainer.appendChild(document.createTextNode(message));
+    
+    errorContainer.style.display = 'block';
     input.classList.add('is-invalid');
-  }
+  };
 
   const clearErrors = () => {
-    feedback.textContent = '';
-    feedback.classList.remove('d-block');
+    const errorContainer = document.querySelector('.invalid-feedback');
+    errorContainer.innerHTML = '';
+    errorContainer.style.display = 'none';
     input.classList.remove('is-invalid');
-  }
+  };
 
   const resetForm = () => {
     form.reset()
