@@ -100,21 +100,21 @@ export const initView = (app) => {
     submitBtn.textContent = 'Загрузка...'
 
     app.validateForm(url)
-    .then(() => app.handleSubmit(url))
-    .then(({ feeds, posts }) => {
-      app.updateState({ feeds, posts })
-      renderFeeds(feeds)
-      renderPosts(posts)
-      showSuccess()
-      resetForm()
-    })
-    .catch((error) => {
-      showError(error.message)
-    })
-    .finally(() => {
-      submitBtn.disabled = false
-      submitBtn.textContent = originalBtnText
-    })
+      .then(() => app.handleSubmit(url))
+      .then(({ feeds, posts }) => {
+        app.updateState({ feeds, posts })
+        renderFeeds(feeds)
+        renderPosts(posts)
+        showSuccess()
+        resetForm()
+      })
+      .catch((error) => {
+        showError(error.message)
+      })
+      .finally(() => {
+        submitBtn.disabled = false
+        submitBtn.textContent = originalBtnText
+      })
   })
 
   app.onUpdatePosts = () => {
