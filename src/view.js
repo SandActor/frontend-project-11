@@ -92,6 +92,12 @@ export const initView = (app) => {
     if (!post) return
     modalTitle.textContent = post.title
     modalDescription.textContent = post.description
+    const closeBtn = document.createElement("button");
+    closeBtn.id = "modal-close-btn";
+    closeBtn.className = "btn btn-secondary";
+    closeBtn.textContent = "Закрыть";
+    closeBtn.onclick = () => modal.hide();
+    modalTitle.appendChild(closeBtn);
     modal.show()
     if (!post.viewed) {
       post.viewed = true
