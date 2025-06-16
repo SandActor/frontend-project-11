@@ -21,7 +21,6 @@ export const initView = (app) => {
     const form = document.getElementById('rss-form')
     const button = form.querySelector('button')
 
-
     const textNode = document.createTextNode(message)
     form.insertBefore(textNode, button)
 
