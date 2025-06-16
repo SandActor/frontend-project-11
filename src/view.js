@@ -21,30 +21,25 @@ export const initView = (app) => {
     const form = document.getElementById('rss-form');
     const button = form.querySelector('button[type="submit"]');
     
-    const existingError = form.querySelector('.error-text-node');
-    if (existingError) existingError.remove();
-    
-    const errorText = document.createTextNode(message);
-    
-    const wrapper = document.createElement('span');
-    wrapper.className = 'error-text-node';
-    wrapper.style.color = '#dc3545';
-    wrapper.style.display = 'block';
-    wrapper.style.margin = '0.5rem 0';
-    wrapper.style.fontSize = '0.875em';
-    
-    wrapper.appendChild(errorText);
-    form.insertBefore(wrapper, button);
-    
+    let node = button.previousSibling;
+    while (node && node.nodeType === Node.TEXT_NODE) {
+      form.removeChild(node);
+      node = button.previousSibling;
+    }
+
+    const textNode = document.createTextNode(message);
+    form.insertBefore(textNode, button);
     document.getElementById('url').classList.add('is-invalid');
   };
 
   const clearErrors = () => {
     const form = document.getElementById('rss-form');
-    const error = form.querySelector('.error-text-node');
-    if (error) error.remove();
-    
-    document.getElementById('url').classList.remove('is-invalid');
+    const button = form.querySelector('button[type="submit"]');
+    let node = button.previousSibling;
+    while (node && node.nodeType === Node.TEXT_NODE) {
+      form.removeChild(node);
+      node = button.previousSibling;
+    }
   };
 
   const resetForm = () => {
