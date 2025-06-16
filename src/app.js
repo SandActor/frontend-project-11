@@ -17,58 +17,58 @@ export const createApp = () => {
   const validateForm = (url) => {
     const existingUrls = state.feeds.map(feed => feed.url)
     const schema = createSchema(existingUrls)
-    return schema.validate({ url }).then(() => true).catch(err => { throw err })
+    return schema.validate({ url }).then(() => true).catch((err) => {throw err})
   }
 
   const handleSubmit = (url) => {
     return new Promise((resolve, reject) => {
       state.loading = true
-      
+
       getRSS(url)
-      .then(({ feed, posts }) => {
-        if (!feed || !feed.title || !feed.description) {
-          throw new Error('Некорректные данные RSS')
-        }
-        
-        return validateForm(url)
-          .then(() => ({ feed, posts }))
-      })
-      .then(({ feed, posts }) => {
-        const feedId = generateId()
-        
-        const newFeed = {
-          id: feedId,
-          url,
-          title: feed.title,
-          description: feed.description,
-        }
-        
-        const newPosts = posts.map(post => ({
-          ...post,
-          id: generateId(),
-          feedId,
-          viewed: false,
-        }))
-        
-        startPolling(5000)
-        
-        return {
-          feeds: [...state.feeds, newFeed],
-          posts: [...state.posts, ...newPosts],
-        }
-      })
-      .then(updatedData => {
-        state.feeds = updatedData.feeds
-        state.posts = updatedData.posts
-        state.loading = false
-        
-        resolve(updatedData)
-      })
-      .catch(err => {
-        state.loading = false
-        state.error = err.message
-        reject(err)
-      })
+        .then(({ feed, posts }) => {
+          if (!feed || !feed.title || !feed.description) {
+            throw new Error('Некорректные данные RSS')
+          }
+          
+          return validateForm(url)
+            .then(() => ({ feed, posts }))
+        })
+        .then(({ feed, posts }) => {
+          const feedId = generateId()
+          
+          const newFeed = {
+            id: feedId,
+            url,
+            title: feed.title,
+            description: feed.description,
+          }
+          
+          const newPosts = posts.map(post => ({
+            ...post,
+            id: generateId(),
+            feedId,
+            viewed: false,
+          }))
+          
+          startPolling(5000)
+          
+          return {
+            feeds: [...state.feeds, newFeed],
+            posts: [...state.posts, ...newPosts],
+          }
+        })
+        .then(updatedData => {
+          state.feeds = updatedData.feeds
+          state.posts = updatedData.posts
+          state.loading = false
+          
+          resolve(updatedData)
+        })
+        .catch(err => {
+          state.loading = false
+          state.error = err.message
+          reject(err)
+        })
     })
   }
 

@@ -20,12 +20,9 @@ export const initView = (app) => {
   const showError = (message) => {
     const form = document.getElementById('rss-form')
     const button = form.querySelector('button')
-
     const textNode = document.createTextNode(message)
     form.insertBefore(textNode, button)
-
     form.style.color = 'red'
-
     document.getElementById('url').classList.add('is-invalid')
   }
 
@@ -55,7 +52,7 @@ export const initView = (app) => {
 
   const renderPosts = () => {
     postsContainer.innerHTML = app.state.posts
-      .map(post => {
+      .map((post) => {
         const linkClass = post.viewed ? 'text-secondary' : 'fw-bold'
         return `
           <div class="mb-3 d-flex justify-content-between align-items-start bg-white p-3 rounded shadow-sm">
