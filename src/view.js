@@ -18,33 +18,32 @@ export const initView = (app) => {
   }
 
   const showError = (message) => {
-    const form = document.getElementById('rss-form');
-    const button = form.querySelector('button[type="submit"]');
+    const form = document.getElementById('rss-form')
+    const button = form.querySelector('button')
+
+    let node = button.previousSibling;
+    while (node && node.nodeType === Node.TEXT_NODE) {
+      form.removeChild(node)
+      node = button.previousSibling
+    }
+    const textNode = document.createTextNode(text)
     
-    const existingError = form.querySelector('.error-text-node');
-    if (existingError) existingError.remove();
-    
-    const errorText = document.createTextNode(message);
-    
-    const wrapper = document.createElement('span');
-    wrapper.className = 'error-text-node';
-    wrapper.style.color = '#dc3545';
-    wrapper.style.display = 'block';
-    wrapper.style.margin = '0.5rem 0';
-    wrapper.style.fontSize = '0.875em';
-    
-    wrapper.appendChild(errorText);
-    form.insertBefore(wrapper, button);
-    
-    document.getElementById('url').classList.add('is-invalid');
-  };
+    form.insertBefore(textNode, button)
+
+    document.getElementById('url').classList.add('is-invalid')
+  }
 
   const clearErrors = () => {
-    const form = document.getElementById('rss-form');
-    const error = form.querySelector('.error-text-node');
-    if (error) error.remove();
+    const form = document.getElementById('rss-form')
+    const button = form.querySelector('button')
     
-    document.getElementById('url').classList.remove('is-invalid');
+    let node = button.previousSibling
+    while (node && node.nodeType === Node.TEXT_NODE) {
+      form.removeChild(node)
+      node = button.previousSibling
+    }
+    
+    document.getElementById('url').classList.remove('is-invalid')
   };
 
   const resetForm = () => {
@@ -92,12 +91,12 @@ export const initView = (app) => {
     if (!post) return
     modalTitle.textContent = post.title
     modalDescription.textContent = post.description
-    const closeBtn = document.createElement("button");
-    closeBtn.id = "modal-close-btn";
-    closeBtn.className = "btn btn-secondary";
-    closeBtn.textContent = "Закрыть";
-    closeBtn.onclick = () => modal.hide();
-    modalTitle.appendChild(closeBtn);
+    const closeBtn = document.createElement("button")
+    closeBtn.id = "modal-close-btn"
+    closeBtn.className = "btn btn-secondary"
+    closeBtn.textContent = "Закрыть"
+    closeBtn.onclick = () => modal.hide()
+    modalTitle.appendChild(closeBtn)
     modal.show()
     if (!post.viewed) {
       post.viewed = true
@@ -117,19 +116,19 @@ export const initView = (app) => {
     app.validateForm(url)
     .then(() => app.handleSubmit(url))
     .then(({ feeds, posts }) => {
-      app.updateState({ feeds, posts });
-      renderFeeds(feeds);
-      renderPosts(posts);
-      showSuccess();
-      resetForm();
+      app.updateState({ feeds, posts })
+      renderFeeds(feeds)
+      renderPosts(posts)
+      showSuccess()
+      resetForm()
     })
     .catch((error) => {
-      showError(error.message);
+      showError(error.message)
     })
     .finally(() => {
-      submitBtn.disabled = false;
-      submitBtn.textContent = originalBtnText;
-    });
+      submitBtn.disabled = false
+      submitBtn.textContent = originalBtnText
+    })
   })
 
   app.onUpdatePosts = () => {

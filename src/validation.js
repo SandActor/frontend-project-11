@@ -7,7 +7,7 @@ yup.setLocale({
   },
   string: {
     url: () => i18n.t('form.errors.url'),
-  }
+  },
 })
 
 const createSchema = (existingUrls) => {
@@ -18,8 +18,8 @@ const createSchema = (existingUrls) => {
       .url()
       .notOneOf(
         existingUrls,
-        i18n.t('form.errors.duplicate')
-      )
+        i18n.t('form.errors.duplicate'),
+      ),
   })
 }
 
