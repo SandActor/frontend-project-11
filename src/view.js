@@ -20,31 +20,24 @@ export const initView = (app) => {
   const showError = (message) => {
     const form = document.getElementById('rss-form')
     const button = form.querySelector('button')
-
-    let node = button.previousSibling;
-    while (node && node.nodeType === Node.TEXT_NODE) {
-      form.removeChild(node)
-      node = button.previousSibling
-    }
-    const textNode = document.createTextNode(text)
     
-    form.insertBefore(textNode, button)
+    const existingError = form.querySelector('.error-message')
+    if (existingError) existingError.remove()
+
+    const errorSpan = document.createElement('span')
+    errorSpan.className = 'error-message text-danger'
+    errorSpan.textContent = message
+
+    form.insertBefore(errorSpan, button)
 
     document.getElementById('url').classList.add('is-invalid')
   }
 
   const clearErrors = () => {
-    const form = document.getElementById('rss-form')
-    const button = form.querySelector('button')
-    
-    let node = button.previousSibling
-    while (node && node.nodeType === Node.TEXT_NODE) {
-      form.removeChild(node)
-      node = button.previousSibling
-    }
-    
+    const errorSpan = document.querySelector('.error-message')
+    if (errorSpan) errorSpan.remove()
     document.getElementById('url').classList.remove('is-invalid')
-  };
+  }
 
   const resetForm = () => {
     form.reset()
