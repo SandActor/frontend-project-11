@@ -20,13 +20,6 @@ export const initView = (app) => {
   const showError = (message) => {
     const form = document.getElementById('rss-form');
     const button = form.querySelector('button[type="submit"]');
-    
-    let node = button.previousSibling;
-    while (node && node.nodeType === Node.TEXT_NODE) {
-      form.removeChild(node);
-      node = button.previousSibling;
-    }
-
     const textNode = document.createTextNode(message);
     form.insertBefore(textNode, button);
     document.getElementById('url').classList.add('is-invalid');
