@@ -17,7 +17,7 @@ export const createApp = () => {
   const validateForm = (url) => {
     const existingUrls = state.feeds.map(feed => feed.url)
     const schema = createSchema(existingUrls)
-    return schema.validate({ url }).then(() => true).catch((err) => err)
+    return schema.validate({ url }).then(() => true).catch(err => err)
   }
 
   const handleSubmit = (url) => {
@@ -57,7 +57,7 @@ export const createApp = () => {
             posts: [...state.posts, ...newPosts],
           }
         })
-        .then(updatedData => {
+        .then((updatedData) => {
           state.feeds = updatedData.feeds
           state.posts = updatedData.posts
           state.loading = false
@@ -94,7 +94,7 @@ export const createApp = () => {
             if (onUpdatePosts) onUpdatePosts()
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(`Ошибка при обновлении фида ${feed.url}:`, error)
         })
     })
