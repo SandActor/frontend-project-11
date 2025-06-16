@@ -63,8 +63,8 @@ export const initView = (app) => {
           </div>
         `
       }).join('')
-    
-    postsContainer.querySelectorAll('.preview-btn').forEach(btn => {
+
+    postsContainer.querySelectorAll('.preview-btn').forEach((btn) => {
       btn.addEventListener('click', (e) => {
         const postId = e.target.dataset.id
         showPreview(postId)
@@ -77,10 +77,10 @@ export const initView = (app) => {
     if (!post) return
     modalTitle.textContent = post.title
     modalDescription.textContent = post.description
-    const closeBtn = document.createElement("button")
-    closeBtn.id = "modal-close-btn"
-    closeBtn.className = "btn btn-secondary"
-    closeBtn.textContent = "Закрыть"
+    const closeBtn = document.createElement('button')
+    closeBtn.id = 'modal-close-btn'
+    closeBtn.className = 'btn btn-secondary'
+    closeBtn.textContent = 'Закрыть'
     closeBtn.onclick = () => modal.hide()
     modalTitle.appendChild(closeBtn)
     modal.show()
@@ -93,12 +93,12 @@ export const initView = (app) => {
   form.addEventListener('submit', (e) => {
     e.preventDefault()
     const url = input.value.trim()
-    
+
     const originalBtnText = submitBtn.textContent
-    
-    submitBtn.disabled = true;
+
+    submitBtn.disabled = true
     submitBtn.textContent = 'Загрузка...'
-    
+
     app.validateForm(url)
     .then(() => app.handleSubmit(url))
     .then(({ feeds, posts }) => {

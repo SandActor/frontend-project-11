@@ -8,12 +8,12 @@ const __dirname = path.dirname(__filename)
 export default defineConfig({
   resolve: {
     alias: {
-      '@locales': path.resolve(__dirname, 'locales')
-    }
+      '@locales': path.resolve(__dirname, 'locales'),
+    },
   },
   server: {
     fs: {
-      strict: false
-    }
-  }
+      strict: false,
+    },
+  },
 })
