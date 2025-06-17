@@ -7,7 +7,7 @@ yup.setLocale({
     notOneOf: () => i18n.t('form.errors.duplicate'),
   },
   string: {
-    url: () => i18n.t('form.errors.url'),
+    url: () => 'Ссылка должна быть валидным URL', // Жестко задаем нужный текст
   },
 })
 
@@ -24,10 +24,10 @@ const createSchema = (existingUrls) => {
   return yup.object().shape({
     url: yup
       .string()
-      .required(existingUrls, 'Поле обязательно для заполнения')
-      .url(existingUrls, 'Ссылка должна быть валидным URL')
+      .required()
+      .url()
       .transform((value) => value.trim())
-      .notOneOf(existingUrls, 'RSS уже существует')
+      .notOneOf(existingUrls)
       .test(
         'unique-url',
         i18n.t('form.errors.duplicate'),
