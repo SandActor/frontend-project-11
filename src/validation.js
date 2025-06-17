@@ -24,7 +24,7 @@ const createSchema = (existingUrls) => {
   return yup.object().shape({
     url: yup
       .string()
-      .required()
+      .required(existingUrls, 'Ссылка должна быть валидным URL')
       .url()
       .transform((value) => value.trim())
       .notOneOf(existingUrls, 'RSS уже существует')
