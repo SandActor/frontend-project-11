@@ -31,7 +31,7 @@ export const createApp = () => {
     if (state.loading) {
       return Promise.reject(new Error('Загрузка уже выполняется'))
     }
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       state.loading = true
       url = normalizeUrl(url.trim())
       getRSS(url)

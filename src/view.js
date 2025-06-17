@@ -23,6 +23,7 @@ export const initView = (app) => {
     const errorElement = document.createElement('div')
     errorElement.className = 'text-danger mt-2'
     errorElement.textContent = message
+    errorElement.setAttribute('data-testid', 'validation-error')
     
     const formGroup = input.closest('.form-floating')
     formGroup.appendChild(errorElement)
@@ -120,7 +121,10 @@ export const initView = (app) => {
         resetForm()
       })
       .catch((error) => {
-        showError(error.message)
+        const errorMessage = error.message.includes('ValidationError') 
+          ? error.errors.join(', ') 
+          : error.message
+        showError(errorMessage)
       })
       .finally(() => {
         isSubmitting = false
