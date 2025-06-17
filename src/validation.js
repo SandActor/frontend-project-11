@@ -24,10 +24,19 @@ const createSchema = (existingUrls) => {
   return yup.object().shape({
     url: yup
       .string()
-      .required()
-      .url()
+      .required(existingUrls, 'Поле обязательно для заполнения')
+      .url(existingUrls, 'Ссылка должна быть валидным URL')
       .transform((value) => value.trim())
-      .notOneOf(existingUrls)
+      .notOneOf(existingUrls, 'RSS уже существует')
+      .test(
+        'unique-url',
+        i18n.t('form.errors.duplicate'),
+        (value) => {
+          const normalizedValue = normalizeUrl(value)
+          const normalizedExisting = existingUrls.map(normalizeUrl)
+          return !normalizedExisting.includes(normalizedValue)
+        }
+      ),
   })
 }
 
