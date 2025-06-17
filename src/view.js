@@ -18,18 +18,23 @@ export const initView = (app) => {
   }
 
   const showError = (message) => {
-    const form = document.getElementById('rss-form')
-    const button = form.querySelector('button')
-    const textNode = document.createTextNode(message)
-    form.insertBefore(textNode, button)
-    form.style.color = 'red'
-    document.getElementById('url').classList.add('is-invalid')
+    clearErrors()
+
+    const errorElement = document.createElement('div')
+    errorElement.className = 'text-danger mt-2'
+    errorElement.textContent = message
+    
+    const formGroup = input.closest('.form-floating')
+    formGroup.appendChild(errorElement)
+
+    input.classList.add('is-invalid')
   }
 
   const clearErrors = () => {
-    const errorSpan = document.querySelector('.error-message')
-    if (errorSpan) errorSpan.remove()
-    document.getElementById('url').classList.remove('is-invalid')
+    const formGroup = input.closest('.form-floating')
+    const existingErrors = formGroup.querySelectorAll('.text-danger, .invalid-feedback')
+    existingErrors.forEach(error => error.remove())
+    input.classList.remove('is-invalid')
   }
 
   const resetForm = () => {

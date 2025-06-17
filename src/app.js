@@ -77,7 +77,7 @@ export const createApp = () => {
         .catch((err) => {
           state.loading = false
           state.error = err.message
-          reject(err)
+          throw err
         })
     })
   }

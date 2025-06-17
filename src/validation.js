@@ -27,6 +27,7 @@ const createSchema = (existingUrls) => {
       .required()
       .url()
       .transform((value) => value.trim())
+      .notOneOf(existingUrls, 'RSS уже существует')
       .test(
         'unique-url',
         i18n.t('form.errors.duplicate'),
