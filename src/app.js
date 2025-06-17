@@ -1,4 +1,4 @@
-import { createSchema } from './validation.js'
+import { createSchema, normalizeUrl } from './validation.js'
 import { getRSS } from './rssParser.js'
 
 export const createApp = () => {
@@ -15,15 +15,25 @@ export const createApp = () => {
   const generateId = () => Math.random().toString(36).substring(2, 9)
 
   const validateForm = (url) => {
-    const existingUrls = state.feeds.map(feed => feed.url)
-    const schema = createSchema(existingUrls)
-    return schema.validate({ url }).then(() => true).catch(err => err)
+    const normalizedUrl = normalizeUrl(url);
+    const existingUrls = state.feeds.map(feed => normalizeUrl(feed.url));
+    
+    const schema = createSchema(existingUrls);
+    return schema.validate({ url: normalizedUrl })
+      .then(() => true)
+      .catch(err => {
+        console.error('Validation error:', err);
+        throw err;
+      });
   }
 
   const handleSubmit = (url) => {
+    if (state.loading) {
+      return Promise.reject(new Error('Загрузка уже выполняется'));
+    }
     return new Promise((resolve, reject) => {
       state.loading = true
-
+      url = normalizeUrl(url.trim());
       getRSS(url)
         .then(({ feed, posts }) => {
           if (!feed || !feed.title || !feed.description) {
@@ -103,8 +113,11 @@ export const createApp = () => {
   }
 
   const startPolling = (intervalMs = 5000) => {
-    if (pollingInterval) clearInterval(pollingInterval)
-    pollingInterval = setInterval(checkForNewPosts, intervalMs)
+    if (pollingInterval) {
+      clearInterval(pollingInterval);
+    }
+    checkForNewPosts();
+    pollingInterval = setInterval(checkForNewPosts, intervalMs);
   }
 
   const updateState = (newState) => {

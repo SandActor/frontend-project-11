@@ -39,4 +39,4 @@ const createSchema = (existingUrls) => {
   })
 }
 
-export { createSchema }
+export { createSchema, normalizeUrl }
