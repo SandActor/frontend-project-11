@@ -22,18 +22,18 @@ export const createApp = () => {
     return schema.validate({ url: normalizedUrl })
       .then(() => true)
       .catch(err => {
-        console.error('Validation error:', err);
-        throw err;
+        console.error('Validation error:', err)
+        throw err
       });
   }
 
   const handleSubmit = (url) => {
     if (state.loading) {
-      return Promise.reject(new Error('Загрузка уже выполняется'));
+      return Promise.reject(new Error('Загрузка уже выполняется'))
     }
     return new Promise((resolve, reject) => {
       state.loading = true
-      url = normalizeUrl(url.trim());
+      url = normalizeUrl(url.trim())
       getRSS(url)
         .then(({ feed, posts }) => {
           if (!feed || !feed.title || !feed.description) {
