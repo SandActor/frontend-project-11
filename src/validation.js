@@ -1,13 +1,12 @@
 import * as yup from 'yup'
-import i18n from './i18n'
 
 yup.setLocale({
   mixed: {
-    required: () => i18n.t('form.errors.required'),
-    notOneOf: () => i18n.t('form.errors.duplicate'),
+    required: 'Поле обязательно для заполнения',
+    notOneOf: 'RSS уже существует',
   },
   string: {
-    url: () => 'Ссылка должна быть валидным URL', // Жестко задаем нужный текст
+    url: 'Ссылка должна быть валидным URL',
   },
 })
 
@@ -27,16 +26,7 @@ const createSchema = (existingUrls) => {
       .required()
       .url()
       .transform((value) => value.trim())
-      .notOneOf(existingUrls)
-      .test(
-        'unique-url',
-        i18n.t('form.errors.duplicate'),
-        (value) => {
-          const normalizedValue = normalizeUrl(value)
-          const normalizedExisting = existingUrls.map(normalizeUrl)
-          return !normalizedExisting.includes(normalizedValue)
-        }
-      ),
+      .notOneOf(existingUrls),
   })
 }
 
