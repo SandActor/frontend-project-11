@@ -2,12 +2,12 @@ import * as yup from 'yup'
 import i18n from './i18n'
 
 yup.setLocale({
-  mixed: {
-    required: () => i18n.t('form.errors.required'),
-    notOneOf: () => i18n.t('form.errors.duplicate'),
-  },
   string: {
-    url: () => i18n.t('form.errors.url'),
+    url: () => 'Ссылка должна быть валидным URL',
+  },
+  mixed: {
+    notOneOf: () => 'RSS уже существует',
+    required: () => 'Поле не должно быть пустым',
   },
 })
 
