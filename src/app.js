@@ -15,16 +15,16 @@ export const createApp = () => {
   const generateId = () => Math.random().toString(36).substring(2, 9)
 
   const validateForm = (url) => {
-    const normalizedUrl = normalizeUrl(url);
-    const existingUrls = state.feeds.map(feed => normalizeUrl(feed.url));
+    const normalizedUrl = normalizeUrl(url)
+    const existingUrls = state.feeds.map(feed => normalizeUrl(feed.url))
     
-    const schema = createSchema(existingUrls);
+    const schema = createSchema(existingUrls)
     return schema.validate({ url: normalizedUrl })
       .then(() => true)
       .catch(err => {
         console.error('Validation error:', err)
         throw err
-      });
+      })
   }
 
   const handleSubmit = (url) => {
@@ -114,10 +114,10 @@ export const createApp = () => {
 
   const startPolling = (intervalMs = 5000) => {
     if (pollingInterval) {
-      clearInterval(pollingInterval);
+      clearInterval(pollingInterval)
     }
-    checkForNewPosts();
-    pollingInterval = setInterval(checkForNewPosts, intervalMs);
+    checkForNewPosts()
+    pollingInterval = setInterval(checkForNewPosts, intervalMs)
   }
 
   const updateState = (newState) => {

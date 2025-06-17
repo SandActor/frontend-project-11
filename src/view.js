@@ -95,14 +95,14 @@ export const initView = (app) => {
     }
   }
 
-  let isSubmitting = false;
+  let isSubmitting = false
 
   form.addEventListener('submit', (e) => {
     e.preventDefault()
-    if (isSubmitting) return;
-    isSubmitting = true;
+    if (isSubmitting) return
+    isSubmitting = true
 
-    clearErrors();
+    clearErrors()
     const url = input.value.trim()
 
     const originalBtnText = submitBtn.textContent

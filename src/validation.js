@@ -18,25 +18,16 @@ const normalizeUrl = (url) => {
   } catch {
     return url
   }
-};
+}
 
 const createSchema = (existingUrls) => {
   return yup.object().shape({
     url: yup
       .string()
-      .required(existingUrls, 'Ссылка должна быть валидным URL')
+      .required()
       .url()
       .transform((value) => value.trim())
-      .notOneOf(existingUrls, 'RSS уже существует')
-      .test(
-        'unique-url',
-        i18n.t('form.errors.duplicate'),
-        (value) => {
-          const normalizedValue = normalizeUrl(value)
-          const normalizedExisting = existingUrls.map(normalizeUrl)
-          return !normalizedExisting.includes(normalizedValue)
-        }
-      ),
+      .notOneOf(existingUrls)
   })
 }
 
