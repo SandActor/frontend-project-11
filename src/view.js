@@ -19,14 +19,14 @@ export const initView = (app) => {
 
   const showError = (message) => {
     clearErrors()
-    
+
     const errorElement = document.createElement('div')
     errorElement.className = 'text-danger mt-2'
     errorElement.textContent = message
     
     const formGroup = input.closest('.form-floating')
     formGroup.appendChild(errorElement)
-    
+
     input.classList.add('is-invalid')
   }
 
@@ -99,11 +99,10 @@ export const initView = (app) => {
 
   form.addEventListener('submit', (e) => {
     e.preventDefault()
-    if (isSubmitting) return
-    isSubmitting = true
-    state.error = null
+    if (isSubmitting) return;
+    isSubmitting = true;
 
-    clearErrors()
+    clearErrors();
     const url = input.value.trim()
 
     const originalBtnText = submitBtn.textContent
