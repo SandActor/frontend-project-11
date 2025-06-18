@@ -29,6 +29,10 @@ export const initView = (app) => {
     formGroup.appendChild(errorElement)
 
     input.classList.add('is-invalid')
+    
+    if (message.includes('Ошибка сети')) {
+      errorElement.classList.add('network-error')
+    }
   }
 
   const clearErrors = () => {
@@ -121,11 +125,18 @@ export const initView = (app) => {
         resetForm()
       })
       .catch((error) => {
-        const errorMessage = error.message.includes('ValidationError') 
-          ? error.errors.join(', ') 
-          : error.message.includes('valid') 
-            ? 'Ресурс не содержит валидный RSS'
-            : error.message
+        let errorMessage;
+        
+        if (error.message.includes('ValidationError')) {
+          errorMessage = error.errors.join(', ')
+        } else if (error.message.includes('Ошибка сети')) {
+          errorMessage = 'Ошибка сети: не удалось подключиться к серверу'
+        } else if (error.message.includes('valid')) {
+          errorMessage = 'Ресурс не содержит валидный RSS'
+        } else {
+          errorMessage = error.message
+        }
+        
         showError(errorMessage)
       })
       .finally(() => {

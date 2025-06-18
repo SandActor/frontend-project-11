@@ -40,6 +40,12 @@ export const getRSS = (url) => {
       return parseRSS(data.contents)
     })
     .catch((error) => {
-      throw new Error(error.message.includes('valid') ? error.message : 'Ресурс не содержит валидный RSS')
+      if (error.message === 'Failed to fetch' || error instanceof TypeError) {
+        throw new Error('Ошибка сети: не удалось подключиться к серверу')
+      } else if (error.message.includes('valid')) {
+        throw new Error(error.message)
+      } else {
+        throw new Error('Ошибка при загрузке RSS: ' + error.message)
+      }
     })
 }
