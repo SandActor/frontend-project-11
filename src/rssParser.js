@@ -29,7 +29,7 @@ export const getRSS = (url) => {
   return fetch(proxyUrl)
     .then((response) => {
       if (!response.ok) {
-        throw new Error('Ошибка сети')
+        throw new Error('Network response was not ok')
       }
       return response.json()
     })
