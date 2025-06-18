@@ -29,10 +29,6 @@ export const initView = (app) => {
     formGroup.appendChild(errorElement)
 
     input.classList.add('is-invalid')
-    
-    if (message.includes('Ошибка сети')) {
-      errorElement.classList.add('network-error')
-    }
   }
 
   const clearErrors = () => {
