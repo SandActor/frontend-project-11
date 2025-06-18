@@ -121,18 +121,11 @@ export const initView = (app) => {
         resetForm()
       })
       .catch((error) => {
-        let errorMessage;
-        
-        if (error.message.includes('ValidationError')) {
-          errorMessage = error.errors.join(', ')
-        } else if (error.message.includes('Ошибка сети')) {
-          errorMessage = 'Ошибка сети: не удалось подключиться к серверу'
-        } else if (error.message.includes('valid')) {
-          errorMessage = 'Ресурс не содержит валидный RSS'
-        } else {
-          errorMessage = error.message
-        }
-        
+        const errorMessage = error.message.includes('ValidationError') 
+          ? error.errors.join(', ') 
+          : error.message.includes('valid') 
+            ? 'Ресурс не содержит валидный RSS'
+            : error.message
         showError(errorMessage)
       })
       .finally(() => {
