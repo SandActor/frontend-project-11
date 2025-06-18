@@ -14,7 +14,7 @@ const normalizeUrl = (url) => {
   try {
     const urlObj = new URL(url)
     return urlObj.origin + urlObj.pathname
-  } 
+  }
   catch {
     return url
   }
