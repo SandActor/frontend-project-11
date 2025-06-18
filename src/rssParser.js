@@ -37,12 +37,6 @@ export const getRSS = (url) => {
       if (!data.contents) {
         throw new Error('Ресурс не содержит валидный RSS')
       }
-      const parser = new DOMParser()
-      const doc = parser.parseFromString(data.contents, 'text/xml')
-      const errorNode = doc.querySelector('parsererror')
-      if (errorNode) {
-        throw new Error('Ресурс не содержит валидный RSS')
-      }
       return parseRSS(data.contents)
     })
     .catch((error) => {

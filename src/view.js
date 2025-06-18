@@ -123,7 +123,9 @@ export const initView = (app) => {
       .catch((error) => {
         const errorMessage = error.message.includes('ValidationError') 
           ? error.errors.join(', ') 
-          : error.message
+          : error.message.includes('valid') 
+            ? 'Ресурс не содержит валидный RSS'
+            : error.message
         showError(errorMessage)
       })
       .finally(() => {

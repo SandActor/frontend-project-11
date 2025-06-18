@@ -31,56 +31,53 @@ export const createApp = () => {
     if (state.loading) {
       return Promise.reject(new Error('Загрузка уже выполняется'))
     }
-    return new Promise((resolve) => {
-      state.loading = true
-      url = normalizeUrl(url.trim())
-      getRSS(url)
-        .then(({ feed, posts }) => {
-          if (!feed || !feed.title || !feed.description) {
-            throw new Error('Некорректные данные RSS')
-          }
+    state.loading = true
+    url = normalizeUrl(url.trim())
+    
+    return getRSS(url)
+      .then(({ feed, posts }) => {
+        if (!feed || !feed.title || !feed.description) {
+          throw new Error('Ресурс не содержит валидный RSS')
+        }
 
-          return validateForm(url)
-            .then(() => ({ feed, posts }))
-        })
-        .then(({ feed, posts }) => {
-          const feedId = generateId()
+        return validateForm(url)
+          .then(() => {
+            const feedId = generateId()
 
-          const newFeed = {
-            id: feedId,
-            url,
-            title: feed.title,
-            description: feed.description,
-          }
+            const newFeed = {
+              id: feedId,
+              url,
+              title: feed.title,
+              description: feed.description,
+            }
 
-          const newPosts = posts.map(post => ({
-            ...post,
-            id: generateId(),
-            feedId,
-            viewed: false,
-          }))
+            const newPosts = posts.map(post => ({
+              ...post,
+              id: generateId(),
+              feedId,
+              viewed: false,
+            }))
 
-          startPolling(5000)
+            startPolling(5000)
 
-          return {
-            feeds: [...state.feeds, newFeed],
-            posts: [...state.posts, ...newPosts],
-          }
-        })
-        .then((updatedData) => {
-          state.feeds = updatedData.feeds
-          state.posts = updatedData.posts
-          state.loading = false
-          state.error = null
-          
-          resolve(updatedData)
-        })
-        .catch((err) => {
-          state.loading = false
-          state.error = err.message
-          throw err
-        })
-    })
+            return {
+              feeds: [...state.feeds, newFeed],
+              posts: [...state.posts, ...newPosts],
+            }
+          })
+      })
+      .then((updatedData) => {
+        state.feeds = updatedData.feeds
+        state.posts = updatedData.posts
+        state.loading = false
+        state.error = null
+        return updatedData
+      })
+      .catch((err) => {
+        state.loading = false
+        state.error = err.message
+        throw err // Пробрасываем ошибку дальше
+      })
   }
 
   const checkForNewPosts = () => {
