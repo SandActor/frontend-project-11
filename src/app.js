@@ -71,7 +71,8 @@ export const createApp = () => {
           state.feeds = updatedData.feeds
           state.posts = updatedData.posts
           state.loading = false
-
+          state.error = null
+          
           resolve(updatedData)
         })
         .catch((err) => {
