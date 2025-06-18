@@ -121,11 +121,12 @@ export const initView = (app) => {
         resetForm()
       })
       .catch((error) => {
-        const errorMessage = error.message.includes('ValidationError') 
-          ? error.errors.join(', ') 
-          : error.message.includes('valid') 
-            ? 'Ресурс не содержит валидный RSS'
-            : error.message
+        const errorMessage = 
+          error.message.includes('ValidationError') ? error.errors.join(', ') :
+          error.message.includes('valid') ? 'Ресурс не содержит валидный RSS' :
+          error.message.includes('Ошибка сети') ? 'Ошибка сети' :
+          'Произошла ошибка при загрузке RSS'
+        
         showError(errorMessage)
       })
       .finally(() => {

@@ -29,7 +29,7 @@ export const getRSS = (url) => {
   return fetch(proxyUrl)
     .then((response) => {
       if (!response.ok) {
-        throw new Error('Network response was not ok')
+        throw new Error('Ошибка сети')
       }
       return response.json()
     })
@@ -40,6 +40,10 @@ export const getRSS = (url) => {
       return parseRSS(data.contents)
     })
     .catch((error) => {
-      throw new Error(error.message.includes('valid') ? error.message : 'Ресурс не содержит валидный RSS')
+      throw new Error(
+        error.message.includes('valid') ? 'Ресурс не содержит валидный RSS' : 
+        error.message.includes('Network') ? 'Ошибка сети' : 
+        'Произошла ошибка при загрузке RSS'
+      )
     })
 }
