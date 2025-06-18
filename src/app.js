@@ -17,11 +17,11 @@ export const createApp = () => {
   const validateForm = (url) => {
     const normalizedUrl = normalizeUrl(url)
     const existingUrls = state.feeds.map(feed => normalizeUrl(feed.url))
-    
+
     const schema = createSchema(existingUrls)
     return schema.validate({ url: normalizedUrl })
       .then(() => true)
-      .catch(err => {
+      .catch((err) => {
         console.error('Validation error:', err)
         throw err
       })
@@ -33,7 +33,7 @@ export const createApp = () => {
     }
     state.loading = true
     url = normalizeUrl(url.trim())
-    
+
     return getRSS(url)
       .then(({ feed, posts }) => {
         if (!feed || !feed.title || !feed.description) {

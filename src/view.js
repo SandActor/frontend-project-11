@@ -24,7 +24,7 @@ export const initView = (app) => {
     errorElement.className = 'text-danger mt-2'
     errorElement.textContent = message
     errorElement.setAttribute('data-testid', 'validation-error')
-    
+
     const formGroup = input.closest('.form-floating')
     formGroup.appendChild(errorElement)
 
@@ -121,9 +121,9 @@ export const initView = (app) => {
         resetForm()
       })
       .catch((error) => {
-        const errorMessage = error.message.includes('ValidationError') 
-          ? error.errors.join(', ') 
-          : error.message.includes('valid') 
+        const errorMessage = error.message.includes('ValidationError')
+          ? error.errors.join(', ')
+          : error.message.includes('valid')
             ? 'Ресурс не содержит валидный RSS'
             : error.message
         showError(errorMessage)

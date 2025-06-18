@@ -14,7 +14,8 @@ const normalizeUrl = (url) => {
   try {
     const urlObj = new URL(url)
     return urlObj.origin + urlObj.pathname
-  } catch {
+  } 
+  catch {
     return url
   }
 }
@@ -25,7 +26,7 @@ const createSchema = (existingUrls) => {
       .string()
       .required('Поле обязательно для заполнения')
       .url('Ссылка должна быть валидным URL')
-      .transform((value) => value.trim())
+      .transform(value => value.trim())
       .notOneOf(existingUrls, 'RSS уже существует'),
   })
 }
