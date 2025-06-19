@@ -24,7 +24,7 @@ export const parseRSS = (xmlString) => {
 }
 
 export const getRSS = (url) => {
-  const proxyUrl = `https://allorigins.hexlet.app/get?url=${encodeURIComponent(url)}&disableCache=true12312`
+  const proxyUrl = `https://allorigins.hexlet.app/get?url=${encodeURIComponent(url)}&disableCache=true`
 
   return fetch(proxyUrl)
     .then((response) => {
