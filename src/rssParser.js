@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export const parseRSS = (xmlString) => {
   const parser = new DOMParser()
   const doc = parser.parseFromString(xmlString, 'text/xml')
@@ -23,20 +25,32 @@ export const parseRSS = (xmlString) => {
   return { feed, posts: items }
 }
 
-export const getRSS = (url) => {
-  const proxyUrl = `https://allorigins.hexlet.app/get?url=${encodeURIComponent(url)}&disableCache=true`
+export const loadRSS = (url) => {
+  const allOriginsUrl = `https://allorigins.hexlet.app/get?url=${encodeURIComponent(url)}&disableCache=true`
 
-  return fetch(proxyUrl)
+  return axios.get(allOriginsUrl)
     .then((response) => {
-      if (!response.ok) {
-        throw new Error('Ошибка сети')
+      if (response.data.contents) {
+        return response.data.contents
       }
-      return response.json()
+      throw new Error('Ошибка сети')
     })
-    .then((data) => {
-      return parseRSS(data.contents)
+}
+
+export const getRSS = (url) => {
+  return loadRSS(url)
+    .then((contents) => {
+      if (!contents) {
+        throw new Error('Ресурс не содержит валидный RSS')
+      }
+      return parseRSS(contents)
     })
     .catch((error) => {
-      throw new Error(error.message.includes('valid') ? error.message : 'Ресурс не содержит валидный RSS')
+      const errorMessage = error.message.includes('Network Error') 
+        ? 'Ошибка сети' 
+        : error.message.includes('valid') 
+          ? error.message 
+          : 'Ресурс не содержит валидный RSS'
+      throw new Error(errorMessage)
     })
 }
