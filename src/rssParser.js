@@ -35,11 +35,11 @@ export const getRSS = (url) => {
     })
     .then((data) => {
       if (!data.contents) {
-        throw new Error('Ресурс не содержит валидный RSS')
+        throw new Error('Ресурс не содержит валидный RSS1')
       }
       return parseRSS(data.contents)
     })
     .catch((error) => {
-      throw new Error(error.message)
+      throw new Error(error.message.includes('valid') ? error.message : 'Ресурс не содержит валидный RSS')
     })
 }
