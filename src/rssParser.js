@@ -42,6 +42,7 @@ export const getRSS = (url) => {
       return parseRSS(data.contents)
     })
     .catch((error) => {
+      console.log(error.message)
       throw new Error(error.message)
     })
 }
