@@ -28,13 +28,15 @@ export const getRSS = (url) => {
 
   return fetch(proxyUrl)
     .then((response) => {
+      if (!response.ok) {
+        throw new Error('Ошибка сети')
+      }
       return response.json()
     })
     .then((data) => {
       return parseRSS(data.contents)
     })
     .catch((error) => {
-      console.log(error.message)
       throw new Error(error.message.includes('valid') ? error.message : 'Ресурс не содержит валидный RSS')
     })
 }

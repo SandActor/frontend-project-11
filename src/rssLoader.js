@@ -8,6 +8,6 @@ export const loadRSS = (url) => {
       if (response.data.contents) {
         return response.data.contents
       }
-      throw new Error('Network response was not ok')
+      throw new Error('Ошибка сети')
     })
 }
