@@ -34,10 +34,10 @@ export const getRSS = (url) => {
       return parseRSS(contents)
     })
     .catch((error) => {
-      const errorMessage = error.message.includes('Network Error') 
-        ? 'Ошибка сети' 
-        : error.message.includes('valid') 
-          ? error.message 
+      const errorMessage = error.message.includes('Network Error')
+        ? 'Ошибка сети'
+        : error.message.includes('valid')
+          ? error.message
           : 'Ресурс не содержит валидный RSS'
       throw new Error(errorMessage)
     })
