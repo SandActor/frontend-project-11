@@ -34,12 +34,13 @@ export const getRSS = (url) => {
       return response.json()
     })
     .then((data) => {
-      if (!data.contents) {
-        throw new Error('Ресурс не содержит валидный RSS1')
-      }
       return parseRSS(data.contents)
     })
     .catch((error) => {
-      throw new Error(error.message.includes('valid') ? error.message : 'Ресурс не содержит валидный RSS')
+      let errorRespons = error.message
+      if(error.message === "Cannot read properties of null (reading 'querySelector')") {
+        errorRespons = 'Ресурс не содержит валидный RSS'
+      }
+      throw new Error(errorRespons)
     })
 }
