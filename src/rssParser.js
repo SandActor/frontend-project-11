@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { loadRSS } from './rssLoader'
 
 export const parseRSS = (xmlString) => {
   const parser = new DOMParser()
@@ -23,18 +23,6 @@ export const parseRSS = (xmlString) => {
   }))
 
   return { feed, posts: items }
-}
-
-export const loadRSS = (url) => {
-  const allOriginsUrl = `https://allorigins.hexlet.app/get?url=${encodeURIComponent(url)}&disableCache=true`
-
-  return axios.get(allOriginsUrl)
-    .then((response) => {
-      if (response.data.contents) {
-        return response.data.contents
-      }
-      throw new Error('Ошибка сети')
-    })
 }
 
 export const getRSS = (url) => {
